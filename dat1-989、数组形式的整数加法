@@ -1,0 +1,50 @@
+Day1
+
+[989、数组形式的整数加法](https://leetcode-cn.com/problems/add-to-array-form-of-integer/)
+
+#javascript
+## 思路
+1、类似现实中的加法题，取数组和数字的对应位相加并加上进位
+
+2、若相加和大于9，则用carry记录下进位为1
+
+3、算完一直就输入到数组中一位
+
+4、不断循环，从最后一位一直到第一位
+
+5、反转数组
+
+#### 处理特殊示例
+1、相加的结果比原来的位数多一位，如990+100=1090，需要在循环结束后单独判断再加一位
+
+2、数组的位数比数字的位数少，如0+23，按照循环会造成数组越界，需要加判断条件，越界就将值置为0
+## 代码
+```javascript
+var addToArrayForm = function(num, k) {
+    let carry=0//记录进位
+    let ru=[]//最终返回的数组
+    let i=num.length-1//循环计数器
+    let result//每一位的结果
+    while(i>-1||k!=0){//||条件保证任意位数的情况下都可以进入循环
+        const x= i>=0? num[i]:0//解决数组和数字位数不同的问题
+        const y=k!=0 ? k%10:0
+        result=x+y+carry//得到某位的值
+        if(result>9){//若大于9，则保留进位，并输入到数组中
+            carry=1
+            ru.push(result%10)
+        }
+        else{//若小于等于9，则不保留进位，并输入到数组中
+            carry=0
+            ru.push(result)
+        }
+        k=Math.floor(k/10)//下取整，有时会自动进位
+        i--//推进循环
+    }
+    if(carry==1) ru.push(1)//解决相加结果比原来多一位
+    return ru.reverse()//反转数组
+};
+```
+## 复杂度分析
+时间复杂度：O(n)
+
+空间复杂度：O(n)
