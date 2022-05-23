@@ -1,0 +1,42 @@
+推荐1
+
+[414、第三大的数](https://leetcode.cn/problems/third-maximum-number/)
+
+#javascript #数组
+## 思路
+1、建立存储前三个数的变量
+
+2、遍历数组，并更新这三个变量
+
+3、按题目要求返回第三大或最大的数
+
+## 代码
+```javascript
+var thirdMax = function(nums) {
+  let first=Number.NEGATIVE_INFINITY
+  let second=first
+  let third=second
+  //定义前三大的数
+  for(let num of nums){//遍历数组
+    if(num>first){
+      third=second
+      second=first
+      first=num
+      //当前元素大于所有数，就更新前三个值
+    }else if(num>second&&num<first){
+      third=second
+      second=num
+      //当前元素比第二大，比第一小，就更新后两个值
+    }else if(num>third&&num<second){
+      third=num
+      //当前元素比第三大，比第二小，更新第三个值
+    }
+  }
+  return third===Number.NEGATIVE_INFINITY? first:third
+  //存在第三大则返回，不存在就返回最大的数
+};
+```
+## 复杂度分析
+时间复杂度：O(n)
+
+空间复杂度：O(1)
